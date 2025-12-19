@@ -1,13 +1,8 @@
-//
-//  ContentView.swift
-//  Astronomy
-//
-//  Created by Prakhar Jaiswal on 19/12/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.container) private var container
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
