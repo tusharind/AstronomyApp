@@ -20,7 +20,8 @@ final class NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidURL
         }
 
-        if method == .GET, let queryParameters = queryParameters {
+        // Add query parameters (typically for GET requests, but can be used for other methods too)
+        if let queryParameters = queryParameters, !queryParameters.isEmpty {
             urlComponents.queryItems = queryParameters.map {
                 URLQueryItem(name: $0.key, value: $0.value)
             }

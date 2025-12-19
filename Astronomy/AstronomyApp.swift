@@ -10,7 +10,7 @@ struct AstronomyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
                 .environment(\.container, container)
         }
     }
