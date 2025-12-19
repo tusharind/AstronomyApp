@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct ImageDetailView: View {
     let imageURL: URL
@@ -15,74 +16,65 @@ struct ImageDetailView: View {
             Color.black.ignoresSafeArea()
             
             // Image with zoom and pan
-            AsyncImage(url: imageURL) { phase in
-                switch phase {
-                case .empty:
+            KFImage(imageURL)
+                .placeholder {
                     ProgressView()
                         .tint(.white)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .scaleEffect(scale)
-                        .offset(offset)
-                        .gesture(
-                            MagnificationGesture()
+                }
+                .cacheMemoryOnly(false)
+                .fade(duration: 0.25)
+                .onFailure { error in
+                    print("Image loading failed: \(error)")
+                }
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .scaleEffect(scale)
+                .offset(offset)
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            let delta = value / lastScale
+                            lastScale = value
+                            scale = min(max(scale * delta, 1.0), 5.0)
+                        }
+                        .onEnded { _ in
+                            lastScale = 1.0
+                            // Reset offset if zoomed out completely
+                            if scale <= 1.0 {
+                                offset = .zero
+                                lastOffset = .zero
+                            }
+                        }
+                        .simultaneously(with:
+                            DragGesture(minimumDistance: 0)
                                 .onChanged { value in
-                                    let delta = value / lastScale
-                                    lastScale = value
-                                    scale = min(max(scale * delta, 1.0), 5.0)
+                                    if scale > 1.0 {
+                                        offset = CGSize(
+                                            width: lastOffset.width + value.translation.width,
+                                            height: lastOffset.height + value.translation.height
+                                        )
+                                    }
                                 }
                                 .onEnded { _ in
+                                    lastOffset = offset
+                                }
+                        )
+                )
+                .simultaneousGesture(
+                    TapGesture(count: 2)
+                        .onEnded {
+                            withAnimation {
+                                if scale > 1.0 {
+                                    resetZoom()
+                                } else {
+                                    scale = 2.0
                                     lastScale = 1.0
-                                    // Reset offset if zoomed out completely
-                                    if scale <= 1.0 {
-                                        offset = .zero
-                                        lastOffset = .zero
-                                    }
+                                    lastOffset = .zero
+                                    offset = .zero
                                 }
-                                .simultaneously(with:
-                                    DragGesture(minimumDistance: 0)
-                                        .onChanged { value in
-                                            if scale > 1.0 {
-                                                offset = CGSize(
-                                                    width: lastOffset.width + value.translation.width,
-                                                    height: lastOffset.height + value.translation.height
-                                                )
-                                            }
-                                        }
-                                        .onEnded { _ in
-                                            lastOffset = offset
-                                        }
-                                )
-                        )
-                        .simultaneousGesture(
-                            TapGesture(count: 2)
-                                .onEnded {
-                                    withAnimation {
-                                        if scale > 1.0 {
-                                            resetZoom()
-                                        } else {
-                                            scale = 2.0
-                                            lastScale = 1.0
-                                            lastOffset = .zero
-                                            offset = .zero
-                                        }
-                                    }
-                                }
-                        )
-                case .failure:
-                    VStack(spacing: 16) {
-                        Image(systemName: "photo")
-                            .font(.system(size: 50))
-                            .foregroundColor(.white)
-                        Text("Failed to load image")
-                            .foregroundColor(.white)
-                    }
-                @unknown default:
-                    EmptyView()
-                }
-            }
+                            }
+                        }
+                )
             
             // Metadata Overlay
             if showingMetadata {

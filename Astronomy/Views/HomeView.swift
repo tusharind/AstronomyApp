@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct HomeView: View {
     @Environment(\.container) private var container
@@ -123,27 +124,20 @@ struct HomeView: View {
                                 selectedImageURL = imageURL
                                 selectedAPOD = apod
                             }) {
-                                AsyncImage(url: imageURL) { phase in
-                                    switch phase {
-                                    case .empty:
+                                KFImage(imageURL)
+                                    .placeholder {
                                         ProgressView()
                                             .frame(maxWidth: .infinity)
                                             .frame(height: 300)
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .cornerRadius(12)
-                                    case .failure:
-                                        Image(systemName: "photo")
-                                            .font(.system(size: 100))
-                                            .foregroundColor(.gray)
-                                            .frame(maxWidth: .infinity)
-                                            .frame(height: 300)
-                                    @unknown default:
-                                        EmptyView()
                                     }
-                                }
+                                    .cacheMemoryOnly(false)
+                                    .fade(duration: 0.25)
+                                    .onFailure { error in
+                                        print("Image loading failed: \(error)")
+                                    }
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .cornerRadius(12)
                             }
                             .buttonStyle(PlainButtonStyle())
                         } else if apod.mediaType == "video", let videoURL = URL(string: apod.url) {
