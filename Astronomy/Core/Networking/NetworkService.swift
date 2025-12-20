@@ -20,7 +20,6 @@ final class NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidURL
         }
 
-        // Add query parameters (typically for GET requests, but can be used for other methods too)
         if let queryParameters = queryParameters, !queryParameters.isEmpty {
             urlComponents.queryItems = queryParameters.map {
                 URLQueryItem(name: $0.key, value: $0.value)
@@ -31,12 +30,26 @@ final class NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidURL
         }
 
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url, timeoutInterval: config.timeout)
         request.httpMethod = method.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
 
-        let (data, response) = try await session.data(for: request)
+        let (data, response): (Data, URLResponse)
+        do {
+            (data, response) = try await session.data(for: request)
+        } catch let error as URLError {
+            switch error.code {
+            case .notConnectedToInternet, .networkConnectionLost:
+                throw NetworkError.networkUnavailable
+            case .timedOut:
+                throw NetworkError.timeout
+            default:
+                throw NetworkError.unknown(error)
+            }
+        } catch {
+            throw NetworkError.unknown(error)
+        }
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse

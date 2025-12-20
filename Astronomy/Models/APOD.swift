@@ -7,7 +7,7 @@ struct APOD: Decodable {
     let url: String
     let mediaType: String
     let copyright: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case title
         case explanation
@@ -17,4 +17,3 @@ struct APOD: Decodable {
         case copyright
     }
 }
-
