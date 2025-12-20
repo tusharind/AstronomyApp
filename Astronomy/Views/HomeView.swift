@@ -23,10 +23,12 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // Header: Utilities Row
+
                 VStack(spacing: 0) {
                     HStack {
-                        NavigationLink(destination: FavouritesView(viewModel: viewModel)) {
+                        NavigationLink(
+                            destination: FavouritesView(viewModel: viewModel)
+                        ) {
                             HStack(spacing: 6) {
                                 Image(systemName: "heart.fill")
                                     .foregroundColor(.red)
@@ -41,9 +43,9 @@ struct HomeView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(20)
                         }
-                        
+
                         Spacer()
-                        
+
                         Button(action: {
                             withAnimation(.spring()) {
                                 showingDatePicker.toggle()
@@ -53,7 +55,10 @@ struct HomeView: View {
                                 .font(.title3)
                                 .foregroundColor(.blue)
                                 .padding(8)
-                                .background(showingDatePicker ? Color.blue.opacity(0.1) : Color.clear)
+                                .background(
+                                    showingDatePicker
+                                        ? Color.blue.opacity(0.1) : Color.clear
+                                )
                                 .clipShape(Circle())
                         }
                     }
@@ -91,7 +96,9 @@ struct HomeView: View {
                                 .foregroundColor(.red)
                                 .multilineTextAlignment(.center)
                             Button("Retry") {
-                                Task { await viewModel.fetchAPOD(for: selectedDate) }
+                                Task {
+                                    await viewModel.fetchAPOD(for: selectedDate)
+                                }
                             }
                             .buttonStyle(.borderedProminent)
                         }
@@ -104,33 +111,51 @@ struct HomeView: View {
                                         .font(.caption2)
                                         .fontWeight(.bold)
                                         .foregroundColor(.secondary)
-                                    
+
                                     Text(apod.title)
                                         .font(.title2)
                                         .fontWeight(.bold)
-                                        .fixedSize(horizontal: false, vertical: true)
+                                        .fixedSize(
+                                            horizontal: false,
+                                            vertical: true
+                                        )
                                 }
-                                
+
                                 Spacer()
-                                
-                                Button(action: { viewModel.likeCurrentAPOD() }) {
-                                    Image(systemName: viewModel.isAPODAlreadyLiked(apod.date) ? "heart.fill" : "heart")
-                                        .font(.title2)
-                                        .foregroundColor(.red)
-                                        .padding(8)
-                                        .background(Color.red.opacity(0.05))
-                                        .clipShape(Circle())
+
+                                Button(action: { viewModel.likeCurrentAPOD() })
+                                {
+                                    Image(
+                                        systemName:
+                                            viewModel.isAPODAlreadyLiked(
+                                                apod.date
+                                            ) ? "heart.fill" : "heart"
+                                    )
+                                    .font(.title2)
+                                    .foregroundColor(.red)
+                                    .padding(8)
+                                    .background(Color.red.opacity(0.05))
+                                    .clipShape(Circle())
                                 }
                             }
 
-                            if apod.mediaType == "image", let imageURL = URL(string: apod.url) {
+                            if apod.mediaType == "image",
+                                let imageURL = URL(string: apod.url)
+                            {
                                 ImageViewWithError(imageURL: imageURL) { url in
                                     selectedImageURL = url
                                     selectedAPOD = apod
                                 }
                                 .cornerRadius(12)
-                                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-                            } else if apod.mediaType == "video", let videoURL = URL(string: apod.url) {
+                                .shadow(
+                                    color: Color.black.opacity(0.1),
+                                    radius: 4,
+                                    x: 0,
+                                    y: 2
+                                )
+                            } else if apod.mediaType == "video",
+                                let videoURL = URL(string: apod.url)
+                            {
                                 VideoLinkView(videoURL: videoURL)
                             }
 
@@ -147,29 +172,47 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button { isDarkMode.toggle() } label: {
-                        Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill")
+                    Button {
+                        isDarkMode.toggle()
+                    } label: {
+                        Image(
+                            systemName: isDarkMode
+                                ? "sun.max.fill" : "moon.fill"
+                        )
                     }
                 }
             }
-            .fullScreenCover(item: Binding(
-                get: { (selectedImageURL != nil && selectedAPOD != nil) ? DetailItem(imageURL: selectedImageURL!, apod: selectedAPOD!) : nil },
-                set: { if $0 == nil { selectedImageURL = nil; selectedAPOD = nil } }
-            )) { item in
+            .fullScreenCover(
+                item: Binding(
+                    get: {
+                        (selectedImageURL != nil && selectedAPOD != nil)
+                            ? DetailItem(
+                                imageURL: selectedImageURL!,
+                                apod: selectedAPOD!
+                            ) : nil
+                    },
+                    set: {
+                        if $0 == nil {
+                            selectedImageURL = nil
+                            selectedAPOD = nil
+                        }
+                    }
+                )
+            ) { item in
                 ImageDetailView(imageURL: item.imageURL, apod: item.apod)
             }
-            // --- FIX START ---
+
             .task {
-                // Fetch the APOD for the current date as soon as the view appears
+
                 if viewModel.apod == nil {
                     await viewModel.fetchAPOD(for: selectedDate)
                 }
             }
             .refreshable {
-                // Allows user to pull down to refresh
+
                 await viewModel.fetchAPOD(for: selectedDate)
             }
-            // --- FIX END ---
+
         }
     }
 
@@ -184,7 +227,6 @@ struct HomeView: View {
         return dateString
     }
 }
-
 
 private struct DetailItem: Identifiable {
     let id = UUID()

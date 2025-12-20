@@ -11,9 +11,20 @@
 		1F9008412EF5AFF0006523BE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1F9008402EF5AFF0006523BE /* Kingfisher */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1F90086A2EF688AB006523BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9007D92EF581D3006523BE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F9007E02EF581D3006523BE;
+			remoteInfo = Astronomy;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1F9007E12EF581D3006523BE /* Astronomy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Astronomy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F90081E2EF599DE006523BE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		1F9008662EF688AB006523BE /* AstronomyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AstronomyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -24,6 +35,20 @@
 			);
 			target = 1F9007E02EF581D3006523BE /* Astronomy */;
 		};
+		1F90086F2EF688B9006523BE /* Exceptions for "AstronomyAppTests" folder in "Astronomy" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MockNetworkService.swift,
+			);
+			target = 1F9007E02EF581D3006523BE /* Astronomy */;
+		};
+		1F9008702EF688B9006523BE /* Exceptions for "AstronomyAppTests" folder in "AstronomyAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MockNetworkService.swift,
+			);
+			target = 1F9008652EF688AB006523BE /* AstronomyAppTests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,6 +58,15 @@
 				1F90081D2EF59261006523BE /* Exceptions for "Astronomy" folder in "Astronomy" target */,
 			);
 			path = Astronomy;
+			sourceTree = "<group>";
+		};
+		1F9008672EF688AB006523BE /* AstronomyAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1F90086F2EF688B9006523BE /* Exceptions for "AstronomyAppTests" folder in "Astronomy" target */,
+				1F9008702EF688B9006523BE /* Exceptions for "AstronomyAppTests" folder in "AstronomyAppTests" target */,
+			);
+			path = AstronomyAppTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -46,6 +80,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1F9008632EF688AB006523BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -53,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				1F9007E32EF581D3006523BE /* Astronomy */,
+				1F9008672EF688AB006523BE /* AstronomyAppTests */,
 				1F9007E22EF581D3006523BE /* Products */,
 				1F90081E2EF599DE006523BE /* .gitignore */,
 			);
@@ -62,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				1F9007E12EF581D3006523BE /* Astronomy.app */,
+				1F9008662EF688AB006523BE /* AstronomyAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -92,6 +135,29 @@
 			productReference = 1F9007E12EF581D3006523BE /* Astronomy.app */;
 			productType = "com.apple.product-type.application";
 		};
+		1F9008652EF688AB006523BE /* AstronomyAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F90086C2EF688AB006523BE /* Build configuration list for PBXNativeTarget "AstronomyAppTests" */;
+			buildPhases = (
+				1F9008622EF688AB006523BE /* Sources */,
+				1F9008632EF688AB006523BE /* Frameworks */,
+				1F9008642EF688AB006523BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F90086B2EF688AB006523BE /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1F9008672EF688AB006523BE /* AstronomyAppTests */,
+			);
+			name = AstronomyAppTests;
+			packageProductDependencies = (
+			);
+			productName = AstronomyAppTests;
+			productReference = 1F9008662EF688AB006523BE /* AstronomyAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -104,6 +170,10 @@
 				TargetAttributes = {
 					1F9007E02EF581D3006523BE = {
 						CreatedOnToolsVersion = 26.1.1;
+					};
+					1F9008652EF688AB006523BE = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = 1F9007E02EF581D3006523BE;
 					};
 				};
 			};
@@ -125,12 +195,20 @@
 			projectRoot = "";
 			targets = (
 				1F9007E02EF581D3006523BE /* Astronomy */,
+				1F9008652EF688AB006523BE /* AstronomyAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1F9007DF2EF581D3006523BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F9008642EF688AB006523BE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -148,7 +226,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1F9008622EF688AB006523BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1F90086B2EF688AB006523BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F9007E02EF581D3006523BE /* Astronomy */;
+			targetProxy = 1F90086A2EF688AB006523BE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1F9007EA2EF581D4006523BE /* Debug */ = {
@@ -342,6 +435,46 @@
 			};
 			name = Release;
 		};
+		1F90086D2EF688AB006523BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tushar.AstronomyAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Astronomy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Astronomy";
+			};
+			name = Debug;
+		};
+		1F90086E2EF688AB006523BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tushar.AstronomyAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Astronomy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Astronomy";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -359,6 +492,15 @@
 			buildConfigurations = (
 				1F9007ED2EF581D4006523BE /* Debug */,
 				1F9007EE2EF581D4006523BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1F90086C2EF688AB006523BE /* Build configuration list for PBXNativeTarget "AstronomyAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F90086D2EF688AB006523BE /* Debug */,
+				1F90086E2EF688AB006523BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
