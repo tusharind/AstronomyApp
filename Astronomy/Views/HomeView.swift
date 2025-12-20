@@ -2,7 +2,6 @@ import Kingfisher
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(\.container) private var container
     @StateObject private var viewModel: APODViewModel
     @State private var selectedDate = Date()
     @State private var showingDatePicker = false
@@ -16,34 +15,21 @@ struct HomeView: View {
         return earliest...today
     }
 
-    init() {
-
-        let apiKey =
-            Bundle.main.infoDictionary?["API_KEY"] as? String
-            ?? Bundle.main.infoDictionary?["NASA_API_KEY"] as? String
-            ?? "DEMO_KEY"
-        _viewModel = StateObject(
-            wrappedValue: APODViewModel(
-                networkService: AppContainer.shared.networkService,
-                apiKey: apiKey
-            )
-        )
+    init(viewModel: APODViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-
-                VStack(spacing: 12) {
+                VStack(alignment: .leading) {
                     HStack {
                         Image(systemName: "calendar")
                             .foregroundColor(.blue)
                         Text("Select Date")
                             .font(.headline)
                         Spacer()
-                        Button(action: {
-                            showingDatePicker.toggle()
-                        }) {
+                        Button(action: { showingDatePicker.toggle() }) {
                             Text(formatDateForDisplay(selectedDate))
                                 .font(.subheadline)
                                 .foregroundColor(.blue)
@@ -66,11 +52,26 @@ struct HomeView: View {
                         )
                         .datePickerStyle(.graphical)
                         .padding(.horizontal)
-                        .onChange(of: selectedDate) { oldValue, newValue in
+                        .onChange(of: selectedDate) { _, newValue in
                             Task {
                                 await viewModel.fetchAPOD(for: newValue)
                             }
                         }
+                    }
+
+                    NavigationLink(
+                        destination: FavouritesView(viewModel: viewModel)
+                    ) {
+                        HStack {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                            Text("View Favourites")
+                                .font(.headline)
+                        }
+                        .padding(8)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal)
                     }
                 }
                 .padding(.vertical, 12)
@@ -79,42 +80,33 @@ struct HomeView: View {
 
                 ScrollView {
                     if viewModel.isLoading {
-                        VStack {
-                            Spacer()
-                            ProgressView()
-                                .scaleEffect(1.5)
-                            Text("Loading...")
-                                .foregroundColor(.secondary)
-                                .padding(.top)
-                            Spacer()
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .padding()
+                        ProgressView()
+                            .scaleEffect(1.5)
+                            .padding()
                     } else if let errorMessage = viewModel.errorMessage {
-                        VStack(spacing: 16) {
-                            Image(systemName: "exclamationmark.triangle")
-                                .font(.system(size: 50))
-                                .foregroundColor(.red)
-                            Text("Error")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            Text(errorMessage)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                            Button("Retry") {
-                                Task {
-                                    await viewModel.fetchAPOD(for: selectedDate)
-                                }
-                            }
-                            .buttonStyle(.borderedProminent)
-                        }
-                        .padding()
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding()
                     } else if let apod = viewModel.apod {
                         VStack(alignment: .leading, spacing: 20) {
-
-                            Text(apod.title)
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
+                            HStack {
+                                Text(apod.title)
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                Spacer()
+                                Button(action: {
+                                    viewModel.likeCurrentAPOD()
+                                }) {
+                                    Image(
+                                        systemName:
+                                            viewModel.isAPODAlreadyLiked(
+                                                apod.date
+                                            ) ? "heart.fill" : "heart"
+                                    )
+                                    .font(.title2)
+                                    .foregroundColor(.red)
+                                }
+                            }
 
                             Text(formatDate(apod.date))
                                 .font(.subheadline)
@@ -132,7 +124,6 @@ struct HomeView: View {
                             {
                                 VideoLinkView(videoURL: videoURL)
                             } else {
-
                                 VStack(spacing: 12) {
                                     Image(systemName: "questionmark.circle")
                                         .font(.system(size: 50))
@@ -150,22 +141,12 @@ struct HomeView: View {
                             Text(apod.explanation)
                                 .font(.body)
                                 .lineSpacing(4)
-
-                            if let copyright = apod.copyright {
-                                Divider()
-                                HStack {
-                                    Text("© \(copyright)")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                    Spacer()
-                                }
-                            }
                         }
                         .padding()
                     }
                 }
             }
-            .navigationTitle("Picture of the day")
+            .navigationTitle("Picture of the Day")
             .refreshable {
                 await viewModel.fetchAPOD(for: selectedDate)
             }
@@ -181,7 +162,8 @@ struct HomeView: View {
                             ? DetailItem(
                                 imageURL: selectedImageURL!,
                                 apod: selectedAPOD!
-                            ) : nil
+                            )
+                            : nil
                     },
                     set: {
                         if $0 == nil {
@@ -199,10 +181,8 @@ struct HomeView: View {
     private func formatDate(_ dateString: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd"
-
         let outputFormatter = DateFormatter()
         outputFormatter.dateFormat = "MMMM d, yyyy"
-
         if let date = inputFormatter.date(from: dateString) {
             return outputFormatter.string(from: date)
         }
@@ -223,6 +203,10 @@ private struct DetailItem: Identifiable {
 }
 
 #Preview {
-    HomeView()
-        .environment(\.container, AppContainer.shared)
+    let dummyVM = APODViewModel(
+        networkService: AppContainer.shared.networkService,
+        context: AppContainer.shared.context,
+        apiKey: "DEMO_KEY"
+    )
+    HomeView(viewModel: dummyVM)
 }
