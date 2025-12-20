@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1F90081F2EF599E7006523BE /* .gitignore in Sources */ = {isa = PBXBuildFile; fileRef = 1F90081E2EF599DE006523BE /* .gitignore */; };
 		1F9008412EF5AFF0006523BE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1F9008402EF5AFF0006523BE /* Kingfisher */; };
+		1F9008732EF69274006523BE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1F9008722EF69274006523BE /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +26,7 @@
 		1F9007E12EF581D3006523BE /* Astronomy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Astronomy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F90081E2EF599DE006523BE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		1F9008662EF688AB006523BE /* AstronomyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AstronomyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F9008722EF69274006523BE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -97,6 +99,7 @@
 				1F9008672EF688AB006523BE /* AstronomyAppTests */,
 				1F9007E22EF581D3006523BE /* Products */,
 				1F90081E2EF599DE006523BE /* .gitignore */,
+				1F9008722EF69274006523BE /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -205,6 +208,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F9008732EF69274006523BE /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
