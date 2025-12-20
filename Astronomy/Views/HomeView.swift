@@ -22,6 +22,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
+
                 VStack(alignment: .leading) {
                     HStack {
                         Image(systemName: "calendar")
@@ -84,9 +85,20 @@ struct HomeView: View {
                             .scaleEffect(1.5)
                             .padding()
                     } else if let errorMessage = viewModel.errorMessage {
-                        Text(errorMessage)
-                            .foregroundColor(.red)
-                            .padding()
+                        VStack(spacing: 12) {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                            Button("Retry") {
+                                Task {
+                                    await viewModel.fetchAPOD(for: selectedDate)
+                                }
+                            }
+                            .padding(8)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                        }
+                        .padding()
                     } else if let apod = viewModel.apod {
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
@@ -101,7 +113,8 @@ struct HomeView: View {
                                         systemName:
                                             viewModel.isAPODAlreadyLiked(
                                                 apod.date
-                                            ) ? "heart.fill" : "heart"
+                                            )
+                                            ? "heart.fill" : "heart"
                                     )
                                     .font(.title2)
                                     .foregroundColor(.red)
@@ -142,6 +155,23 @@ struct HomeView: View {
                                 .font(.body)
                                 .lineSpacing(4)
                         }
+                        .padding()
+                    } else {
+
+                        VStack(spacing: 12) {
+                            Text("No data available.")
+                                .foregroundColor(.secondary)
+                            Button("Retry") {
+                                Task {
+                                    await viewModel.fetchAPOD(for: selectedDate)
+                                }
+                            }
+                            .padding(8)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding()
                     }
                 }

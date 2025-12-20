@@ -21,9 +21,9 @@ struct AstronomyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String ?? "DEMO_KEY"
+            let apiKey =
+                Bundle.main.infoDictionary?["API_KEY"] as? String ?? "DEMO_KEY"
 
-            // Inject dependencies through initializer
             let homeVM = APODViewModel(
                 networkService: container.networkService,
                 context: container.context,
@@ -34,4 +34,3 @@ struct AstronomyApp: App {
         }
     }
 }
-

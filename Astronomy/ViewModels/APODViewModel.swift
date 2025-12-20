@@ -1,6 +1,5 @@
 import Combine
 import CoreData
-import Foundation
 import SwiftUI
 
 @MainActor
@@ -93,51 +92,6 @@ class APODViewModel: ObservableObject {
         isLoading = false
     }
 
-//    func likeCurrentAPOD() {
-//        guard let apod = apod else { return }
-//
-//        if isAPODAlreadyLiked(apod.date) {
-//            return
-//        }
-//
-//        let entity = APODEntity(context: context)
-//        entity.title = apod.title
-//        entity.explanation = apod.explanation
-//        entity.date = apod.date
-//        entity.url = apod.url
-//        entity.mediaType = apod.mediaType
-//
-//        do {
-//            try context.save()
-//            fetchLikedAPODs()
-//        } catch {
-//            print("Failed to save APOD: \(error)")
-//        }
-//    }
-
-//    func fetchLikedAPODs() {
-//        let request: NSFetchRequest<APODEntity> = APODEntity.fetchRequest()
-//        request.sortDescriptors = [
-//            NSSortDescriptor(keyPath: \APODEntity.date, ascending: false)
-//        ]
-//
-//        do {
-//            let results = try context.fetch(request)
-//            likedAPODs = results.map { entity in
-//                APOD(
-//                    title: entity.title ?? "",
-//                    explanation: entity.explanation ?? "",
-//                    date: entity.date ?? "",
-//                    url: entity.url ?? "",
-//                    mediaType: entity.mediaType ?? "",
-//                    copyright: nil
-//                )
-//            }
-//        } catch {
-//            print("Failed to fetch liked APODs: \(error)")
-//        }
-//    }
-    
     func likeCurrentAPOD() {
         guard let apod = apod else { return }
 
@@ -188,7 +142,6 @@ class APODViewModel: ObservableObject {
             print("Failed to fetch liked APODs: \(error)")
         }
     }
-
 
     func unlikeAPOD(_ apodToDelete: APOD) {
         let request: NSFetchRequest<APODEntity> = APODEntity.fetchRequest()
