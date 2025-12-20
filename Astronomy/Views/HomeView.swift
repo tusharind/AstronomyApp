@@ -165,7 +165,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("Astronomy Picture of the Day")
+            .navigationTitle("Picture of the day")
             .refreshable {
                 await viewModel.fetchAPOD(for: selectedDate)
             }
@@ -213,89 +213,6 @@ struct HomeView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         return formatter.string(from: date)
-    }
-}
-
-struct ImageViewWithError: View {
-    let imageURL: URL
-    let onTap: (URL) -> Void
-    @State private var imageLoadError: Error?
-
-    var body: some View {
-        Button(action: {
-            onTap(imageURL)
-        }) {
-            Group {
-                if imageLoadError != nil {
-                    VStack(spacing: 12) {
-                        Image(systemName: "photo")
-                            .font(.system(size: 50))
-                            .foregroundColor(.gray)
-                        Text("Failed to load image")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Text("Tap to try again")
-                            .font(.caption)
-                            .foregroundColor(.blue)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 300)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(12)
-                    .onTapGesture {
-                        imageLoadError = nil
-                    }
-                } else {
-                    KFImage(imageURL)
-                        .placeholder {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 300)
-                        }
-                        .cacheMemoryOnly(false)
-                        .fade(duration: 0.25)
-                        .onFailure { error in
-                            imageLoadError = error
-                        }
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(12)
-                }
-            }
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
-
-struct VideoLinkView: View {
-    let videoURL: URL
-    @State private var videoLoadError: Bool = false
-
-    var body: some View {
-        Link(destination: videoURL) {
-            VStack(spacing: 12) {
-                if videoLoadError {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.system(size: 40))
-                        .foregroundColor(.orange)
-                    Text("Video may be unavailable")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-
-                HStack {
-                    Image(systemName: "play.circle.fill")
-                        .font(.system(size: 50))
-                    Text("Watch Video")
-                        .font(.headline)
-                }
-                .foregroundColor(.blue)
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.blue.opacity(0.1))
-            .cornerRadius(12)
-        }
     }
 }
 
