@@ -4,6 +4,8 @@ import SwiftUI
 @main
 struct AstronomyApp: App {
     private let container = AppContainer.shared
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
+
 
     init() {
         print(Bundle.main.infoDictionary?["API_KEY"] ?? "NOT FOUND")
@@ -21,16 +23,9 @@ struct AstronomyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            let apiKey =
-                Bundle.main.infoDictionary?["API_KEY"] as? String ?? "DEMO_KEY"
-
-            let homeVM = APODViewModel(
-                networkService: container.networkService,
-                context: container.context,
-                apiKey: apiKey
-            )
-
-            HomeView(viewModel: homeVM)
+            RootView()
+                .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }
 }
+

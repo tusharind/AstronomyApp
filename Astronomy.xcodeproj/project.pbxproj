@@ -7,40 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F90081F2EF599E7006523BE /* .gitignore in Sources */ = {isa = PBXBuildFile; fileRef = 1F90081E2EF599DE006523BE /* .gitignore */; };
 		1F9008412EF5AFF0006523BE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1F9008402EF5AFF0006523BE /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1F9007E12EF581D3006523BE /* Astronomy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Astronomy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F90081E2EF599DE006523BE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		1F90081D2EF59261006523BE /* Exceptions for "Astronomy" folder in "Astronomy" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				.gitignore,
 				Resources/Info.plist,
 			);
 			target = 1F9007E02EF581D3006523BE /* Astronomy */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		1F9008462EF6499D006523BE /* Exceptions for "Astronomy" folder in "Compile Sources" phase from "Astronomy" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 1F9007DD2EF581D3006523BE /* Sources */;
-			membershipExceptions = (
-				.gitignore,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1F9007E32EF581D3006523BE /* Astronomy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				1F90081D2EF59261006523BE /* Exceptions for "Astronomy" folder in "Astronomy" target */,
-				1F9008462EF6499D006523BE /* Exceptions for "Astronomy" folder in "Compile Sources" phase from "Astronomy" target */,
 			);
 			path = Astronomy;
 			sourceTree = "<group>";
@@ -64,6 +54,7 @@
 			children = (
 				1F9007E32EF581D3006523BE /* Astronomy */,
 				1F9007E22EF581D3006523BE /* Products */,
+				1F90081E2EF599DE006523BE /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -153,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F90081F2EF599E7006523BE /* .gitignore in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
