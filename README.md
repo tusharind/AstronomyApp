@@ -308,7 +308,7 @@ SOFTWARE.
 
 <div align="center">
 
-**Made with love by [Your Name]**
+**Made with love by Tushar**
 
 If you found this project helpful, consider giving it a star!
 
